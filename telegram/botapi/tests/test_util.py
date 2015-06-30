@@ -1,6 +1,7 @@
 import unittest
 
 import telegram.botapi.util as util
+import telegram.botapi.tests.testdata as testdata
 
 class TestIsCallable(unittest.TestCase):
 
@@ -17,21 +18,11 @@ class TestIsCallable(unittest.TestCase):
 class TestJsonObject(unittest.TestCase):
 
     def setUp(self):
-        self.json_string = "{   \"intattr\": 5, \"strattr\": \"teststr\", \
-                                \"listattr\": [ \
-                                    {\"listitem1\": 1}, \
-                                    {\"listitem2\": \"foo\"} \
-                                ], \
-                                \"subobj\": { \
-                                    \"subobj_intattr\": 4, \
-                                    \"subobj_strattr\": \"substr\", \
-                                    \"subobj_listattr\": [ \
-                                        {\"sublistitem1\": \"subliststr\"}\
-                                    ]}}"
-        self.jobj = util.fromjson(self.json_string)
+        self.json_dict = testdata.JSON_DICT
+        self.jobj = util.fromjson(self.json_dict)
 
-    def test_fromjson(self):
-        obj = util.fromjson(self.json_string)
+    def test_jsonobj(self):
+        obj = util.fromjson(self.json_dict)
 
 
     def test_access_should_work(self):

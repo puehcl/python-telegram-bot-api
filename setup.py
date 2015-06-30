@@ -8,7 +8,8 @@ setup(name="Telegram Bot API",
     author="Clemens Puehringer",
     author_email="misc-telegramapi@pueh.at",
     py_modules=   [ "telegram.botapi.util", \
+                    "telegram.botapi.api", \
                     "telegram.botapi.connector", \
                     "telegram.botapi.bot", \
-                    "telegram.botapi.botbuilder" ],
+                    "telegram.botapi.botbuilder"],
     )

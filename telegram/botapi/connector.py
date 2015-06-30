@@ -2,37 +2,28 @@
 import requests
 
 import telegram.botapi.util as util
+import telegram.botapi.api as api
 
 DEFAULT_ENDPOINT_URL = "https://api.telegram.org/bot"
+DEFAULT_LONGPOLLING_TIMEOUT = 120
 
 class Connector(object):
-    default_longpolling_timeout = 120
-
-    get_updates_method = "getUpdates"
-    send_message_method = "sendMessage"
 
     def __init__(self, api_key, endpoint_url=DEFAULT_ENDPOINT_URL):
-        self.last_update_id = 0
-        self.longpolling_timeout = Connector.default_longpolling_timeout
+        self.last_update_id = -1
+        self.longpolling_timeout = DEFAULT_LONGPOLLING_TIMEOUT
         self.base_url = endpoint_url + api_key + "/"
-        self.get_updates_url = self.base_url + Connector.get_updates_method
-        self.send_message_url = self.base_url + Connector.send_message_method
 
     def get_raw_updates(self):
-        params = {"timeout": self.longpolling_timeout}
-        response = requests.get(self.get_updates_url, \
-                                params=params, \
-                                timeout=self.longpolling_timeout)
-        print(response.text)
-        return util.fromjson(response.text)
-
-    def get_updates(self):
         params = {  "timeout": self.longpolling_timeout, \
                     "offset": (self.last_update_id + 1) }
-        response = requests.get(self.get_updates_url, \
-                                params=params, \
-                                timeout=self.longpolling_timeout)
-        jobj = util.fromjson(response.text)
+        json_response = requests.get(   api.get_updates_url(self.base_url), \
+                                        params=params, \
+                                        timeout=self.longpolling_timeout).json()
+        return util.fromjson(json_response)
+
+    def get_updates(self):
+        jobj = self.get_raw_updates()
         if not jobj.ok:
             pass
             #TODO: raise
@@ -49,5 +40,6 @@ class Connector(object):
 
     def send_message(self, chat_id, message):
         params = {"chat_id": str(chat_id), "text": message}
-        response = requests.post(self.send_message_url, params=params)
-        return util.fromjson(response.text)
+        json_response = requests.post(  api.send_message_url(self.base_url), \
+                                        params=params).json()
+        return util.fromjson(json_response)

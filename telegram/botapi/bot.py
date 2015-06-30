@@ -41,21 +41,21 @@ class Action(object):
     def __init__(self, transformer):
         self.transformer = transformer
     def execute(self, update):
-        self.transformer.transform(update)
+        return self.transformer.transform(update)
 
 class SendAction(Action):
     def __init__(self, transformer, connector):
         super().__init__(transformer)
         self.connector = connector
     def execute(self, update):
-        pass
+        return None
 
 class SendMessageAction(SendAction):
     def __init__(self, transformer, connector):
         super().__init__(transformer, connector)
     def execute(self, update):
         message = self.transformer.transform(update)
-        self.connector.send_message(update.chat.id, message)
+        return self.connector.send_message(update.chat.id, message)
 
 class TelegramBot(object):
 
@@ -78,6 +78,7 @@ class TelegramBot(object):
     def _execute_actions(self, update):
         for (matcher, action, consume) in self.actions:
             if matcher.matches(update):
-                action.execute(update)
+                result = action.execute(update)
+                print(result)
                 if consume:
                     return

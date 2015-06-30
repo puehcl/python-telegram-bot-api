@@ -27,10 +27,12 @@ class JsonObject(object):
         result = result[:-2] + "}"
         return result
 
+    def __repr__(self):
+        return self.__str__()
 
-def fromjson(string):
-    return JsonObject(json.loads(string))
+
+def fromjson(json_dict):
+    return JsonObject(json_dict)
 
 def iscallable(obj):
     return hasattr(obj, "__call__")
-    
