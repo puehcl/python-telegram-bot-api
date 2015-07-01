@@ -1,4 +1,6 @@
 
+import telegram.botapi.util as util
+import telegram.botapi.actions as actions
 import telegram.botapi.bot as bot
 import telegram.botapi.connector as connector
 
@@ -21,27 +23,44 @@ class BotBuilder(object):
 
     def do_when(self, cmd_or_predicate, function, consume):
         matcher = self._get_matcher(cmd_or_predicate)
-        transformer = bot.FunctionTransformer(function)
-        self.bot.add_action(matcher, bot.Action(transformer), consume)
+        generator = actions.FunctionGenerator(function)
+        self.bot.add_action(matcher, actions.Action(generator), consume)
         return self
 
-    def send_message_when(self, cmd_or_predicate, msg_or_function, consume):
+    def send_message_when(  self, cmd_or_predicate, msg_or_function, \
+                            consume=True, optionals={}):
         matcher = self._get_matcher(cmd_or_predicate)
-        transformer = self._get_transformer(msg_or_function)
-        self.bot.add_action(matcher, bot.SendMessageAction(transformer, self.bot.connector), consume)
+        generator = self._get_generator(msg_or_function, optionals)
+        self.bot.add_action(matcher, \
+                            actions.SendMessageAction(\
+                                generator, \
+                                self.bot.connector), \
+                            consume)
+        return self
+
+    def send_photo_when(self, cmd_or_predicate, msg_or_function, \
+                        is_id=False, consume=True, optionals={}):
+        matcher = self._get_matcher(cmd_or_predicate)
+        generator = self._get_generator(msg_or_function, optionals)
+        self.bot.add_action(matcher, \
+                            actions.SendPhotoAction( \
+                                generator, \
+                                self.bot.connector, \
+                                is_id), \
+                            consume)
         return self
 
     def build(self):
         return self.bot
 
     def _get_matcher(self, cmd_or_predicate):
-        if hasattr(cmd_or_predicate, "__call__"):
-            return bot.FunctionMatcher(cmd_or_predicate)
+        if util.iscallable(cmd_or_predicate):
+            return actions.FunctionMatcher(cmd_or_predicate)
         else:
-            return bot.CommandMatcher(cmd_or_predicate)
+            return actions.CommandMatcher(cmd_or_predicate)
 
-    def _get_transformer(self, str_or_function):
-        if hasattr(str_or_function, "__call__"):
-            return bot.FunctionTransformer(str_or_function)
+    def _get_generator(self, str_or_function, optionals):
+        if util.iscallable(str_or_function):
+            return actions.FunctionGenerator(str_or_function, optionals=optionals)
         else:
-            return bot.StringTransformer(str_or_function)
+            return actions.StringGenerator(str_or_function, optionals=optionals)

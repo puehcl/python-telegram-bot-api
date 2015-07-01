@@ -50,19 +50,23 @@ MULTIPLE_UPDATES = "{   \"ok\":true, \
                                     \"text\":\"" + MULTIPLE_UPDATES_TEXTS[0] + "\" }}]}".replace(" ", "")
 
 
-OK_RESPONSE = "{\"ok\":true, \
-                \"result\": { \
-                    \"message_id\":344, \
-                    \"from\": { \
-                        \"id\":483848483, \
-                        \"first_name\":\"TestBot\", \
-                        \"username\":\"test_bot\"}, \
-                    \"chat\": { \
-                        \"id\":4838586, \
-                        \"first_name\": \"tester\", \
-                        \"username\":\"tester\"}, \
-                    \"date\":1234567890, \
-                    \"text\":\"testtext\"}}"
+MESSAGE_RESPONSE = "{   \"ok\":true, \
+                        \"result\": { \
+                            \"message_id\":344, \
+                            \"from\": { \
+                                \"id\":483848483, \
+                                \"first_name\":\"TestBot\", \
+                                \"username\":\"test_bot\"}, \
+                            \"chat\": { \
+                                \"id\":4838586, \
+                                \"first_name\": \"tester\", \
+                                \"username\":\"tester\"}, \
+                            \"date\":1234567890, \
+                            \"text\":\"testtext\"}}"
+
+USER_RESPONSE = "{  \"id\": 22342342, \
+                    \"first_name\": \"TestBot\", \
+                    \"user_name\": \"test_bot\" }"
 
 
 JSON_DICT  ={   "intattr": 5, \

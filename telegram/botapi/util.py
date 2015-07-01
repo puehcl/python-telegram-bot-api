@@ -36,3 +36,24 @@ def fromjson(json_dict):
 
 def iscallable(obj):
     return hasattr(obj, "__call__")
+
+def getfile(file_or_filename):
+    if file_or_filename:
+        if isinstance(file_or_filename, str):
+            return open(file_or_filename, "rb")
+        else:
+            return file_or_filename
+    else:
+        return None
+
+def getparam(name, file_id):
+    if file_id:
+        return {name: file_id}
+    else:
+        return {}
+
+def getmultipart(name, fil):
+    if fil:
+        return {name: fil}
+    else:
+        return {}
