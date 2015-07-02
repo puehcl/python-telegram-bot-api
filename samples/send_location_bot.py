@@ -26,4 +26,5 @@ if __name__ == "__main__":
     botbuilder.BotBuilder(apikey_file="api_key.txt") \
         .do_when(match_all, logger, botbuilder.DO_NOT_CONSUME) \
         .send_location_when("location", get_random_location) \
+        .send_location_when("tuple", (20,50)) \
         .build().start()

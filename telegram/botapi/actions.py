@@ -23,7 +23,7 @@ class Generator(object):
     def get_optionals(self):
         return {}
 
-class StringGenerator(object):
+class StringGenerator(Generator):
     def __init__(self, obj, optionals={}):
         self.obj = obj
         self.optionals = optionals
@@ -32,7 +32,16 @@ class StringGenerator(object):
     def get_optionals(self):
         return self.optionals
 
-class FunctionGenerator(object):
+class TupleGenerator(Generator):
+    def __init__(self, tup, optionals={}):
+        self.tuple = tup
+        self.optionals = optionals
+    def generate(self, update):
+        return self.tuple
+    def get_optionals(self):
+        return self.optionals
+
+class FunctionGenerator(Generator):
     def __init__(self, function, optionals={}):
         self.function = function
         self.optionals = optionals

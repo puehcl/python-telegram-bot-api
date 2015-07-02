@@ -6,6 +6,7 @@ setup(  name            = "telegram-bot-api",
         version         = "0.2",
         description     = "A python wrapper and bot builder for the Telegram Bot API",
         url             = "https://github.com/puehcl/python-telegram-bot-api",
+        download_url    = "https://github.com/puehcl/python-telegram-bot-api/tarball/0.2",
         author          = "Clemens Puehringer",
         author_email    = "misc-telegramapi@pueh.at",
         py_modules      = [ "telegram.botapi.util", \

@@ -48,10 +48,10 @@ class BotBuilder(object):
                             consume)
         return self
 
-    def send_photo_when(self, cmd_or_predicate, msg_or_function, \
+    def send_photo_when(self, cmd_or_predicate, filename_or_function, \
                         is_id=False, consume=True, optionals={}):
         matcher = self._get_matcher(cmd_or_predicate)
-        generator = self._get_generator(msg_or_function, optionals)
+        generator = self._get_generator(filename_or_function, optionals)
         self.bot.add_action(matcher, \
                             actions.SendPhotoAction( \
                                 generator, \
@@ -60,10 +60,10 @@ class BotBuilder(object):
                             consume)
         return self
 
-    def send_audio_when(self, cmd_or_predicate, msg_or_function, \
+    def send_audio_when(self, cmd_or_predicate, filename_or_function, \
                         is_id=False, consume=True, optionals={}):
         matcher = self._get_matcher(cmd_or_predicate)
-        generator = self._get_generator(msg_or_function, optionals)
+        generator = self._get_generator(filename_or_function, optionals)
         self.bot.add_action(matcher, \
                             actions.SendAudioAction( \
                                 generator, \
@@ -72,10 +72,10 @@ class BotBuilder(object):
                             consume)
         return self
 
-    def send_document_when( self, cmd_or_predicate, msg_or_function, \
+    def send_document_when( self, cmd_or_predicate, filename_or_function, \
                             is_id=False, consume=True, optionals={}):
         matcher = self._get_matcher(cmd_or_predicate)
-        generator = self._get_generator(msg_or_function, optionals)
+        generator = self._get_generator(filename_or_function, optionals)
         self.bot.add_action(matcher, \
                             actions.SendDocumentAction( \
                                 generator, \
@@ -84,10 +84,10 @@ class BotBuilder(object):
                             consume)
         return self
 
-    def send_sticker_when(  self, cmd_or_predicate, msg_or_function, \
+    def send_sticker_when(  self, cmd_or_predicate, filename_or_function, \
                             is_id=False, consume=True, optionals={}):
         matcher = self._get_matcher(cmd_or_predicate)
-        generator = self._get_generator(msg_or_function, optionals)
+        generator = self._get_generator(filename_or_function, optionals)
         self.bot.add_action(matcher, \
                             actions.SendStickerAction( \
                                 generator, \
@@ -96,10 +96,10 @@ class BotBuilder(object):
                             consume)
         return self
 
-    def send_video_when(self, cmd_or_predicate, msg_or_function, \
+    def send_video_when(self, cmd_or_predicate, filename_or_function, \
                         is_id=False, consume=True, optionals={}):
         matcher = self._get_matcher(cmd_or_predicate)
-        generator = self._get_generator(msg_or_function, optionals)
+        generator = self._get_generator(filename_or_function, optionals)
         self.bot.add_action(matcher, \
                             actions.SendVideoAction( \
                                 generator, \
@@ -108,10 +108,10 @@ class BotBuilder(object):
                             consume)
         return self
 
-    def send_location_when( self, cmd_or_predicate, msg_or_function, \
+    def send_location_when( self, cmd_or_predicate, tuple_or_function, \
                             consume=True, optionals={}):
         matcher = self._get_matcher(cmd_or_predicate)
-        generator = self._get_generator(msg_or_function, optionals)
+        generator = self._get_generator(tuple_or_function, optionals)
         self.bot.add_action(matcher, \
                             actions.SendLocationAction( \
                                 generator, \
@@ -128,8 +128,14 @@ class BotBuilder(object):
         else:
             return actions.CommandMatcher(cmd_or_predicate)
 
-    def _get_generator(self, str_or_function, optionals):
-        if util.iscallable(str_or_function):
-            return actions.FunctionGenerator(str_or_function, optionals=optionals)
+    def _get_generator(self, str_or_tuple_or_function, optionals):
+        if util.iscallable(str_or_tuple_or_function):
+            return actions.FunctionGenerator(   str_or_tuple_or_function, \
+                                                optionals=optionals)
+        elif isinstance(str_or_tuple_or_function, tuple):
+            if len(str_or_tuple_or_function) == 2:
+                return actions.TupleGenerator(  str_or_tuple_or_function, \
+                                                optionals=optionals)
         else:
-            return actions.StringGenerator(str_or_function, optionals=optionals)
+            return actions.StringGenerator( str_or_tuple_or_function, \
+                                            optionals=optionals)
