@@ -83,7 +83,7 @@ Instead of the `result_generator` function, you can instead directly use values 
 
 Optionals are the optional parameters that can be used by the telegram api, in the case of `send_photo_when`,
 `{"caption": "A photo of some mountains"}` would be a valid optional parameter. The `result_generator` function
-can also return optional parameters as the last item in a tuple or a list, for example
+can also return optional parameters as the last item in a tuple, for example
 ```python
 def get_photo(update):
     return open("photo.png", "rb"), {"caption": "some photo"}
@@ -94,8 +94,8 @@ Based on the type of response to send, the `result_generator` has to return diff
 confusing:
 
 * in `do_when`, it can return anything, the value is not used.
-* in `send_message_when`, it can return `string`, `string, optionals` or `[string, optionals]`
-* in `forward_message_when`, it can return `from_chat_id, message_id[, optionals]` or a list of those items (you get the drift)
+* in `send_message_when`, it can return `string` or `string, optionals`
+* in `forward_message_when`, it can return `from_chat_id, message_id[, optionals]`
 * in `send_location_when`, it can return `latitude, longitude[, optionals]` or a list
 * in `send_[filetype]_when`, it can return `filehandle_filename_or_id[, is_id][, optionals]`
 
