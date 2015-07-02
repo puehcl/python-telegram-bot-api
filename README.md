@@ -93,11 +93,11 @@ This can be used if the optional parameters are dependent on the content of the 
 Based on the type of response to send, the `result_generator` has to return different values, this is where it gets
 confusing:
 
-* `do_when` can return anything, the value is not used.
-* `send_message_when` can return `string`, `string, optionals` or `[string, optionals]`
-* `forward_message_when` can return `from_chat_id, message_id[, optionals]` or a list of those items (you get the drift)
-* `send_location_when` can return `latitude, longitude[, optionals]` or a list
-* `send_[filetype]_when` can return `filehandle_filename_or_id[, is_id][, optionals]`
+* in `do_when`, it can return anything, the value is not used.
+* in `send_message_when`, it can return `string`, `string, optionals` or `[string, optionals]`
+* in `forward_message_when`, it can return `from_chat_id, message_id[, optionals]` or a list of those items (you get the drift)
+* in `send_location_when`, it can return `latitude, longitude[, optionals]` or a list
+* in `send_[filetype]_when`, it can return `filehandle_filename_or_id[, is_id][, optionals]`
 
 The `is_id` parameter defaults to `False` and effects the handling of the return value, if it is a string.
 If `is_id` is `False`, the returned string will be treated as a filename, if it is `True`, the returned string
