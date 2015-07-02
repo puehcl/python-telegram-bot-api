@@ -1,6 +1,8 @@
 # python-telegram-bot-api
 A python wrapper and bot builder for the telegram bot api.
 
+Can be found on PyPI https://pypi.python.org/pypi/telegram-bot-api/0.2
+
 ## Some simple samples
 The simplest way to build a bot with this package is the botbuilder, here are some short and easy ways to create a bot.
 
